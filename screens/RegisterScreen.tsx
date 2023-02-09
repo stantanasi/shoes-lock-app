@@ -1,12 +1,44 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useState } from 'react'
 
 export default function RegisterScreen() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
-    <View>
-      <Text>RegisterScreen</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Sign In</Text>
+      <TextInput
+        placeholder='Name'
+        style={styles.name}
+        value={name}
+        onChangeText={(value) => setName(value)}
+      />
+      <TextInput
+        placeholder='Email'
+        style={styles.email}
+        value={email}
+        onChangeText={(value) => setEmail(value)}
+      />
+      <TextInput
+        placeholder='Password'
+        style={styles.password}
+        value={password}
+        onChangeText={(value) => setPassword(value)}
+      />
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {},
+  name: {},
+  email: {},
+  password: {},
+})
