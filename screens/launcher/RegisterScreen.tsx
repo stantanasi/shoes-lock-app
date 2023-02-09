@@ -8,8 +8,9 @@ export default function RegisterScreen({ navigation }: RootStackScreenProps<'Reg
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [address, setAddress] = useState('');
 
-  const register = (name: string, email: string, password: string) => {
+  const register = (name: string, email: string, password: string, address: string) => {
     auth.createUserWithEmailAndPassword(email, password)
       .then(async (credentials) => {
         const user = credentials.user;
@@ -20,6 +21,7 @@ export default function RegisterScreen({ navigation }: RootStackScreenProps<'Reg
           .add({
             uid: user.uid,
             name: name,
+            address: address,
           });
         AsyncStorage.setItem('user', JSON.stringify({ uid: user.uid }));
 
@@ -55,14 +57,21 @@ export default function RegisterScreen({ navigation }: RootStackScreenProps<'Reg
         value={password}
         onChangeText={(value) => setPassword(value)}
       />
+      <TextInput
+        placeholder='Address'
+        style={styles.address}
+        value={address}
+        onChangeText={(value) => setAddress(value)}
+      />
       <Button
         title='Sign In'
         onPress={() => {
           if (name.trim() === '') return;
           if (email.trim() === '') return;
           if (password.trim() === '') return;
+          if (address.trim() === '') return;
 
-          register(name, email, password);
+          register(name, email, password, address);
         }}
       />
     </View>
@@ -79,4 +88,5 @@ const styles = StyleSheet.create({
   name: {},
   email: {},
   password: {},
+  address: {},
 })
