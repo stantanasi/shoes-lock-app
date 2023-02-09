@@ -1,8 +1,9 @@
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { auth } from '../../firebase';
+import { RootStackScreenProps } from '../../types';
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'>) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,6 +13,12 @@ export default function LoginScreen() {
         const user = credentials.user;
 
         return user;
+      })
+      .then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Root' }],
+        });
       })
       .catch((error) => console.error(error));
   }

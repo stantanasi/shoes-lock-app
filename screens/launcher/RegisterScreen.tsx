@@ -1,8 +1,9 @@
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { auth, fireDB } from '../../firebase';
+import { RootStackScreenProps } from '../../types';
 
-export default function RegisterScreen() {
+export default function RegisterScreen({ navigation }: RootStackScreenProps<'Register'>) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,7 +23,13 @@ export default function RegisterScreen() {
 
         return user;
       })
-      .catch((error) => console.log(error));
+      .then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Root' }],
+        });
+      })
+      .catch((error) => console.error(error));
   }
 
   return (
