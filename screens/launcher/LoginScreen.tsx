@@ -2,6 +2,7 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { auth } from '../../firebase';
 import { RootStackScreenProps } from '../../types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'>) {
   const [email, setEmail] = useState('');
@@ -11,7 +12,9 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'
     auth.signInWithEmailAndPassword(email, password)
       .then((credentials) => {
         const user = credentials.user;
+        if (!user) throw new Error('User is null');
 
+        AsyncStorage.setItem('user', JSON.stringify({ uid: user.uid }));
         return user;
       })
       .then(() => {

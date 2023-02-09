@@ -2,6 +2,7 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { auth, fireDB } from '../../firebase';
 import { RootStackScreenProps } from '../../types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RegisterScreen({ navigation }: RootStackScreenProps<'Register'>) {
   const [name, setName] = useState('');
@@ -20,6 +21,7 @@ export default function RegisterScreen({ navigation }: RootStackScreenProps<'Reg
             uid: user.uid,
             name: name,
           });
+        AsyncStorage.setItem('user', JSON.stringify({ uid: user.uid }));
 
         return user;
       })
