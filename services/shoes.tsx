@@ -34,4 +34,5 @@ export type Shoe = {
   img: string;
   price: number;
   brandID: number;
+  promo: number;
 };
