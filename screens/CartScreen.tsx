@@ -17,14 +17,14 @@ export default function CartScreen() {
       name: "Yeezy Boost 350 ",
       brandID: 2,
       price: 120,
-      img: "https://cdn.shopify.com/s/files/1/2358/2817/products/Adidas-Yeezy-Boost-350-V2-Oreo-wethenew1_2000x.png?v=1646730420",
+      img: "https://www.pngall.com/wp-content/uploads/2016/06/Adidas-Shoes-Free-Download-PNG.png",
       promo: 0,
     },
     {
       name: "Air Jordan 1",
       brandID: 1,
       price: 120,
-      img: "https://myalpins.com/1680-large_default/nike-air-jordan-1-mid-noir-blanc.jpg",
+      img: "https://cdn.shopify.com/s/files/1/0606/8692/6069/products/AQ0818-100_4A_900x_68f01a70-75e9-4de0-86ad-d887ebbbcd7e_1445x.jpg?v=1635350617",
       promo: 0,
     },
   ];
@@ -35,7 +35,7 @@ export default function CartScreen() {
         <Spacer height={40} />
         <View style={styles.list}>
           {tempShoes.map((shoe) => (
-            <ItemBox item={shoe} removeItem={() => {}} />
+            <ItemBox favOption item={shoe} removeItem={() => {}} />
           ))}
         </View>
       </View>
