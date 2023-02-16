@@ -12,7 +12,7 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { ColorSchemeName, Pressable } from "react-native";
+import { ColorSchemeName, Image, Pressable, View } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -90,6 +90,15 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
+  const Header = () => {
+    return (
+      <Image
+        style={{ width: 100, height: 40 }}
+        source={require("../assets/images/logo-shoes-lock.png")}
+      />
+    )
+  }
+
   return (
     <Provider store={store}>
       <BottomTab.Navigator
@@ -101,31 +110,26 @@ function BottomTabNavigator() {
         <BottomTab.Screen
           name="TabOne"
           component={TabOneScreen}
-          options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
+          options={{
             title: "Tab One",
+            headerStyle: {
+              backgroundColor: '#489BAD',
+            },
+            headerTitle: () => <Header />,
+            headerTitleAlign: 'center',
             tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-            headerRight: () => (
-              <Pressable
-                onPress={() => navigation.navigate("Modal")}
-                style={({ pressed }) => ({
-                  opacity: pressed ? 0.5 : 1,
-                })}
-              >
-                <FontAwesome
-                  name="info-circle"
-                  size={25}
-                  color={Colors[colorScheme].text}
-                  style={{ marginRight: 15 }}
-                />
-              </Pressable>
-            ),
-          })}
+          }}
         />
         <BottomTab.Screen
           name="TabTwo"
           component={TabTwoScreen}
           options={{
             title: "Tab Two",
+            headerStyle: {
+              backgroundColor: '#489BAD',
+            },
+            headerTitle: () => <Header />,
+            headerTitleAlign: 'center',
             tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           }}
         />
@@ -134,6 +138,11 @@ function BottomTabNavigator() {
           component={CartScreen}
           options={{
             title: "Cart",
+            headerStyle: {
+              backgroundColor: '#489BAD',
+            },
+            headerTitle: () => <Header />,
+            headerTitleAlign: 'center',
             tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           }}
         />
@@ -142,6 +151,11 @@ function BottomTabNavigator() {
           component={FavScreen}
           options={{
             title: "Favorites",
+            headerStyle: {
+              backgroundColor: '#489BAD',
+            },
+            headerTitle: () => <Header />,
+            headerTitleAlign: 'center',
             tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           }}
         />
@@ -150,7 +164,6 @@ function BottomTabNavigator() {
           component={ProfileScreen}
           options={({ navigation }: RootTabScreenProps<"Profile">) => ({
             title: "Profile",
-            tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
             headerRight: () => (
               <Pressable
                 onPress={() => navigation.navigate("ProfileSettings")}
@@ -166,6 +179,12 @@ function BottomTabNavigator() {
                 />
               </Pressable>
             ),
+            headerStyle: {
+              backgroundColor: '#489BAD',
+            },
+            headerTitle: () => <Header />,
+            headerTitleAlign: 'center',
+            tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
           })}
         />
       </BottomTab.Navigator>
