@@ -21,6 +21,7 @@ export type RootStackParamList = {
   Register: undefined;
   Login: undefined;
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
+  ProfileSettings: undefined;
   Modal: undefined;
   NotFound: undefined;
 };

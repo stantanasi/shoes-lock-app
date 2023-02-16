@@ -30,7 +30,8 @@ import {
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 import CartScreen from "../screens/CartScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+import ProfileScreen from "../screens/profile/ProfileScreen";
+import ProfileSettingsScreen from "../screens/profile/ProfileSettingsScreen";
 
 export default function Navigation({
   colorScheme,
@@ -71,6 +72,7 @@ function RootNavigator() {
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="ProfileSettings" component={ProfileSettingsScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -134,10 +136,25 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{
+        options={({ navigation }: RootTabScreenProps<"Profile">) => ({
           title: "Profile",
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
-        }}
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate("ProfileSettings")}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <FontAwesome
+                name="gear"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
+        })}
       />
     </BottomTab.Navigator>
   );
