@@ -2,17 +2,25 @@ import React from "react";
 import { View, Pressable, StyleSheet, Image } from "react-native";
 
 interface CircleIconProps {
-  onPress: () => void;
+  onPress?: () => void;
   url: any;
 }
 
 const CircleIcon = ({ onPress, url }: CircleIconProps) => {
   return (
-    <Pressable onPress={onPress}>
-      <View style={styles.circleBtn}>
-        <Image style={styles.img} source={url} />
-      </View>
-    </Pressable>
+    <>
+      {onPress ? (
+        <Pressable onPress={onPress}>
+          <View style={styles.circleBtn}>
+            <Image style={styles.img} source={url} />
+          </View>
+        </Pressable>
+      ) : (
+        <View style={styles.circleBtn}>
+          <Image style={styles.img} source={url} />
+        </View>
+      )}
+    </>
   );
 };
 

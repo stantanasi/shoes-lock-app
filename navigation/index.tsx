@@ -35,6 +35,7 @@ import CartScreen from "../screens/CartScreen";
 import FavScreen from "../screens/FavScreen";
 import ProfileScreen from "../screens/profile/ProfileScreen";
 import ProfileSettingsScreen from "../screens/profile/ProfileSettingsScreen";
+import CircleIcon from "../components/atoms/circle-icon";
 
 export default function Navigation({
   colorScheme,
@@ -75,7 +76,10 @@ function RootNavigator() {
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
-        <Stack.Screen name="ProfileSettings" component={ProfileSettingsScreen} />
+        <Stack.Screen
+          name="ProfileSettings"
+          component={ProfileSettingsScreen}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -96,15 +100,21 @@ function BottomTabNavigator() {
         style={{ width: 100, height: 40 }}
         source={require("../assets/images/logo-shoes-lock.png")}
       />
-    )
-  }
+    );
+  };
 
   return (
     <Provider store={store}>
       <BottomTab.Navigator
         initialRouteName="TabOne"
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme].tint,
+          tabBarActiveTintColor: "#000",
+          tabBarInactiveTintColor: "#000",
+          tabBarStyle: {
+            backgroundColor: "#489BAD",
+            height: 60,
+          },
+          tabBarShowLabel: false,
         }}
       >
         <BottomTab.Screen
@@ -113,10 +123,10 @@ function BottomTabNavigator() {
           options={{
             title: "Tab One",
             headerStyle: {
-              backgroundColor: '#489BAD',
+              backgroundColor: "#489BAD",
             },
             headerTitle: () => <Header />,
-            headerTitleAlign: 'center',
+            headerTitleAlign: "center",
             tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           }}
         />
@@ -126,11 +136,13 @@ function BottomTabNavigator() {
           options={{
             title: "Tab Two",
             headerStyle: {
-              backgroundColor: '#489BAD',
+              backgroundColor: "#489BAD",
             },
             headerTitle: () => <Header />,
-            headerTitleAlign: 'center',
-            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+            headerTitleAlign: "center",
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="code" color={"#000"} />
+            ),
           }}
         />
         <BottomTab.Screen
@@ -139,11 +151,13 @@ function BottomTabNavigator() {
           options={{
             title: "Cart",
             headerStyle: {
-              backgroundColor: '#489BAD',
+              backgroundColor: "#489BAD",
             },
             headerTitle: () => <Header />,
-            headerTitleAlign: 'center',
-            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+            headerTitleAlign: "center",
+            tabBarIcon: ({ color }) => (
+              <CircleIcon url={require("../assets/images/cart.png")} />
+            ),
           }}
         />
         <BottomTab.Screen
@@ -152,11 +166,13 @@ function BottomTabNavigator() {
           options={{
             title: "Favorites",
             headerStyle: {
-              backgroundColor: '#489BAD',
+              backgroundColor: "#489BAD",
             },
             headerTitle: () => <Header />,
-            headerTitleAlign: 'center',
-            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+            headerTitleAlign: "center",
+            tabBarIcon: ({ color }) => (
+              <CircleIcon url={require("../assets/images/fav-icon.png")} />
+            ),
           }}
         />
         <BottomTab.Screen
@@ -164,6 +180,14 @@ function BottomTabNavigator() {
           component={ProfileScreen}
           options={({ navigation }: RootTabScreenProps<"Profile">) => ({
             title: "Profile",
+            headerStyle: {
+              backgroundColor: "#489BAD",
+            },
+            headerTitle: () => <Header />,
+            headerTitleAlign: "center",
+            tabBarIcon: ({ color }) => (
+              <CircleIcon url={require("../assets/images/user-icon.png")} />
+            ),
             headerRight: () => (
               <Pressable
                 onPress={() => navigation.navigate("ProfileSettings")}
@@ -174,17 +198,11 @@ function BottomTabNavigator() {
                 <FontAwesome
                   name="gear"
                   size={25}
-                  color={Colors[colorScheme].text}
+                  color={"#000"}
                   style={{ marginRight: 15 }}
                 />
               </Pressable>
             ),
-            headerStyle: {
-              backgroundColor: '#489BAD',
-            },
-            headerTitle: () => <Header />,
-            headerTitleAlign: 'center',
-            tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
           })}
         />
       </BottomTab.Navigator>
