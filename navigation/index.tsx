@@ -33,6 +33,8 @@ import { Provider } from "react-redux/es/exports";
 import { store } from "../redux";
 import CartScreen from "../screens/CartScreen";
 import FavScreen from "../screens/FavScreen";
+import ProfileScreen from "../screens/profile/ProfileScreen";
+import ProfileSettingsScreen from "../screens/profile/ProfileSettingsScreen";
 
 export default function Navigation({
   colorScheme,
@@ -73,6 +75,7 @@ function RootNavigator() {
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="ProfileSettings" component={ProfileSettingsScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -141,6 +144,29 @@ function BottomTabNavigator() {
             title: "Favorites",
             tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           }}
+        />
+        <BottomTab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={({ navigation }: RootTabScreenProps<"Profile">) => ({
+            title: "Profile",
+            tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+            headerRight: () => (
+              <Pressable
+                onPress={() => navigation.navigate("ProfileSettings")}
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.5 : 1,
+                })}
+              >
+                <FontAwesome
+                  name="gear"
+                  size={25}
+                  color={Colors[colorScheme].text}
+                  style={{ marginRight: 15 }}
+                />
+              </Pressable>
+            ),
+          })}
         />
       </BottomTab.Navigator>
     </Provider>

@@ -21,6 +21,7 @@ export type RootStackParamList = {
   Register: undefined;
   Login: undefined;
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
+  ProfileSettings: undefined;
   Modal: undefined;
   NotFound: undefined;
 };
@@ -33,6 +34,7 @@ export type RootTabParamList = {
   TabTwo: undefined;
   Cart: undefined;
   Favorites: undefined;
+  Profile: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
