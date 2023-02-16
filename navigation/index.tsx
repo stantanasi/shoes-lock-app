@@ -32,6 +32,7 @@ import LinkingConfiguration from "./LinkingConfiguration";
 import { Provider } from "react-redux/es/exports";
 import { store } from "../redux";
 import CartScreen from "../screens/CartScreen";
+import FavScreen from "../screens/FavScreen";
 
 export default function Navigation({
   colorScheme,
@@ -130,6 +131,14 @@ function BottomTabNavigator() {
           component={CartScreen}
           options={{
             title: "Cart",
+            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          }}
+        />
+        <BottomTab.Screen
+          name="Favorites"
+          component={FavScreen}
+          options={{
+            title: "Favorites",
             tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           }}
         />

@@ -4,7 +4,7 @@ import ItemBox from "../components/organisms/item-box";
 import { Text, View } from "../components/Themed";
 import { Shoe } from "../services/shoes";
 
-export default function CartScreen() {
+export default function FavScreen() {
   const tempShoes: Shoe[] = [
     {
       id: "1",
@@ -22,23 +22,15 @@ export default function CartScreen() {
       img: "https://www.pngall.com/wp-content/uploads/2016/06/Adidas-Shoes-Free-Download-PNG.png",
       promo: 0,
     },
-    {
-      id: "3",
-      name: "Air Jordan 1",
-      brandID: 1,
-      price: 120,
-      img: "https://cdn.shopify.com/s/files/1/0606/8692/6069/products/AQ0818-100_4A_900x_68f01a70-75e9-4de0-86ad-d887ebbbcd7e_1445x.jpg?v=1635350617",
-      promo: 0,
-    },
   ];
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.title}>Cart</Text>
+        <Text style={styles.title}>Favorites</Text>
         <Spacer height={40} />
         <View style={styles.list}>
           {tempShoes.map((shoe, index) => (
-            <ItemBox key={index} item={shoe} removeItem={() => {}} />
+            <ItemBox key={index} favOption item={shoe} removeItem={() => {}} />
           ))}
         </View>
       </View>
