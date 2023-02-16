@@ -22,7 +22,7 @@ import LoginScreen from "../screens/launcher/LoginScreen";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import TabOneScreen from "../screens/TabOneScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
+import ShopScreen from "../screens/ShopScreen";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -131,10 +131,10 @@ function BottomTabNavigator() {
           }}
         />
         <BottomTab.Screen
-          name="TabTwo"
-          component={TabTwoScreen}
+          name="Shop"
+          component={ShopScreen}
           options={{
-            title: "Tab Two",
+            title: "Shop",
             headerStyle: {
               backgroundColor: "#489BAD",
             },

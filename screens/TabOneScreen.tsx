@@ -91,8 +91,15 @@ export default function TabOneScreen({
           ></Button>
         </View>
       </View>
-      <Text>{JSON.stringify(shoes)}</Text>
-      <Text>{JSON.stringify(cart)}</Text>
+      {/* <Text>{JSON.stringify(shoes)}</Text> */}
+      <View>
+        {cart.map((item) => (
+          <Text>
+            {item.name}, {item.quantity}
+          </Text>
+        ))}
+      </View>
+      {/* <Text>{JSON.stringify(cart)}</Text> */}
     </View>
   );
 }
