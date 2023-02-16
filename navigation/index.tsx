@@ -31,6 +31,7 @@ import {
 import LinkingConfiguration from "./LinkingConfiguration";
 import { Provider } from "react-redux/es/exports";
 import { store } from "../redux";
+import CartScreen from "../screens/CartScreen";
 
 export default function Navigation({
   colorScheme,
@@ -87,10 +88,49 @@ function BottomTabNavigator() {
 
   return (
     <Provider store={store}>
-      <BottomTab.Navigator
-        initialRouteName="TabOne"
-        screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme].tint,
+    <BottomTab.Navigator
+      initialRouteName="TabOne"
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme].tint,
+      }}
+    >
+      <BottomTab.Screen
+        name="TabOne"
+        component={TabOneScreen}
+        options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
+          title: "Tab One",
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate("Modal")}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <FontAwesome
+                name="info-circle"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
+        })}
+      />
+      <BottomTab.Screen
+        name="TabTwo"
+        component={TabTwoScreen}
+        options={{
+          title: "Tab Two",
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Cart"
+        component={CartScreen}
+        options={{
+          title: "Cart",
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       >
         <BottomTab.Screen
