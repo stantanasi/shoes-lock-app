@@ -2,6 +2,7 @@ import React from "react";
 import { View, Pressable, StyleSheet, Image } from "react-native";
 
 interface CircleIconProps {
+  // action when pressing button
   onPress?: () => void;
   url: any;
 }
