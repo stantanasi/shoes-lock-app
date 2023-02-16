@@ -30,6 +30,7 @@ import {
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 import CartScreen from "../screens/CartScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 export default function Navigation({
   colorScheme,
@@ -128,6 +129,14 @@ function BottomTabNavigator() {
         options={{
           title: "Cart",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
     </BottomTab.Navigator>
