@@ -29,7 +29,10 @@ import {
   RootTabScreenProps,
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
+import { Provider } from "react-redux/es/exports";
+import { store } from "../redux";
 import CartScreen from "../screens/CartScreen";
+import FavScreen from "../screens/FavScreen";
 import ProfileScreen from "../screens/profile/ProfileScreen";
 import ProfileSettingsScreen from "../screens/profile/ProfileSettingsScreen";
 
@@ -88,75 +91,85 @@ function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator
-      initialRouteName="TabOne"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}
-    >
-      <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("Modal")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
-      />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
-        options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+    <Provider store={store}>
+      <BottomTab.Navigator
+        initialRouteName="TabOne"
+        screenOptions={{
+          tabBarActiveTintColor: Colors[colorScheme].tint,
         }}
-      />
-      <BottomTab.Screen
-        name="Cart"
-        component={CartScreen}
-        options={{
-          title: "Cart",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={({ navigation }: RootTabScreenProps<"Profile">) => ({
-          title: "Profile",
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("ProfileSettings")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <FontAwesome
-                name="gear"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
-      />
-    </BottomTab.Navigator>
+      >
+        <BottomTab.Screen
+          name="TabOne"
+          component={TabOneScreen}
+          options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
+            title: "Tab One",
+            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+            headerRight: () => (
+              <Pressable
+                onPress={() => navigation.navigate("Modal")}
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.5 : 1,
+                })}
+              >
+                <FontAwesome
+                  name="info-circle"
+                  size={25}
+                  color={Colors[colorScheme].text}
+                  style={{ marginRight: 15 }}
+                />
+              </Pressable>
+            ),
+          })}
+        />
+        <BottomTab.Screen
+          name="TabTwo"
+          component={TabTwoScreen}
+          options={{
+            title: "Tab Two",
+            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          }}
+        />
+        <BottomTab.Screen
+          name="Cart"
+          component={CartScreen}
+          options={{
+            title: "Cart",
+            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          }}
+        />
+        <BottomTab.Screen
+          name="Favorites"
+          component={FavScreen}
+          options={{
+            title: "Favorites",
+            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          }}
+        />
+        <BottomTab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={({ navigation }: RootTabScreenProps<"Profile">) => ({
+            title: "Profile",
+            tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+            headerRight: () => (
+              <Pressable
+                onPress={() => navigation.navigate("ProfileSettings")}
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.5 : 1,
+                })}
+              >
+                <FontAwesome
+                  name="gear"
+                  size={25}
+                  color={Colors[colorScheme].text}
+                  style={{ marginRight: 15 }}
+                />
+              </Pressable>
+            ),
+          })}
+        />
+      </BottomTab.Navigator>
+    </Provider>
   );
 }
 

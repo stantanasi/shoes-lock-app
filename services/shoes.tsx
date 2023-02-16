@@ -1,20 +1,21 @@
 import { fireDB } from "../firebase";
 
-export function getShoes(): Array<Shoe> | undefined {
-  let shoesList: Array<Shoe> = [];
-
-  fireDB.collection("shoes").onSnapshot((res) => {
-    res.forEach((doc) => {
-      console.log(doc.data());
-      const stringValue = JSON.stringify(doc.data());
-      const value: Shoe = JSON.parse(stringValue);
-      shoesList.push(value);
+export async function getShoes(): Promise<Array<Shoe>> {
+  return new Promise((resolve, reject) => {
+    let shoesList: Array<Shoe> = [];
+    fireDB.collection("shoes").onSnapshot((res) => {
+      res.forEach((doc) => {
+        console.log(doc.data());
+        console.log(doc.id);
+        const stringValue = JSON.stringify(doc.data());
+        let value: Shoe = JSON.parse(stringValue);
+        value.id = doc.id;
+        shoesList.push(value);
+      });
+      console.log("Shoes list : ", shoesList);
+      resolve(shoesList);
     });
-    console.log("Shoes list : ", shoesList);
-    return shoesList;
   });
-
-  return;
 }
 
 export function createShoe(shoe: Shoe): void {
@@ -30,6 +31,7 @@ export function createShoe(shoe: Shoe): void {
 }
 
 export type Shoe = {
+  id: string;
   name: string;
   img: string;
   price: number;

@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, Image } from "react-native";
 import { Shoe } from "../../services/shoes";
 import Button from "../atoms/button";
+import CircleIcon from "../atoms/circle-icon";
 import Spacer from "../atoms/spacer";
 
 interface BoxItemProps {
@@ -21,10 +22,10 @@ export default function ItemBox({ item, removeItem, favOption }: BoxItemProps) {
           <Text style={styles.text}>{item.brandID}</Text>
           <Text style={styles.text}>{item.name}</Text>
         </View>
-        <Text style={styles.text}>{item.price}</Text>
+        <Text style={styles.text}>{item.price}$</Text>
       </View>
       <Spacer height={10} />
-      {favOption ? (
+      {!favOption ? (
         <View style={styles.downbox}>
           <Button deleteVersion onPress={removeItem}>
             <Text style={styles.btnText}>Remove</Text>
@@ -36,7 +37,10 @@ export default function ItemBox({ item, removeItem, favOption }: BoxItemProps) {
             <Text style={styles.btnText}>Remove</Text>
           </Button>
           <Spacer width={15} />
-          <Text>+cart icon</Text>
+          <CircleIcon
+            onPress={() => {}}
+            url={require("../../assets/images/cart-plus.png")}
+          />
         </View>
       )}
     </View>
