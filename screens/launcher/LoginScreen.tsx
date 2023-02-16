@@ -40,6 +40,7 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'
         style={styles.password}
         value={password}
         onChangeText={(value) => setPassword(value)}
+        secureTextEntry
       />
       <Button
         title='Login'

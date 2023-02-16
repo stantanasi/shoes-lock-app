@@ -56,6 +56,7 @@ export default function RegisterScreen({ navigation }: RootStackScreenProps<'Reg
         style={styles.password}
         value={password}
         onChangeText={(value) => setPassword(value)}
+        secureTextEntry
       />
       <TextInput
         placeholder='Address'
