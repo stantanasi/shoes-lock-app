@@ -7,6 +7,7 @@ import { Shoe } from "../services/shoes";
 export default function CartScreen() {
   const tempShoes: Shoe[] = [
     {
+      id: "1",
       name: "Air Jordan 1",
       brandID: 1,
       price: 120,
@@ -14,6 +15,7 @@ export default function CartScreen() {
       promo: 0,
     },
     {
+      id: "2",
       name: "Yeezy Boost 350 ",
       brandID: 2,
       price: 120,
@@ -21,6 +23,7 @@ export default function CartScreen() {
       promo: 0,
     },
     {
+      id: "3",
       name: "Air Jordan 1",
       brandID: 1,
       price: 120,
