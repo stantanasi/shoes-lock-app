@@ -113,11 +113,13 @@ export default function TabOneScreen({
       </View>
       {/* <Text>{JSON.stringify(shoes)}</Text> */}
       <View>
-        {cart.map((item) => (
-          <Text>
-            {item.name}, {item.quantity}
-          </Text>
-        ))}
+        {cart.map((item) => {
+          return (
+            <Text key={item.id}>
+              {item.name}, {item.quantity}
+            </Text>
+          );
+        })}
       </View>
       {/* <Text>{JSON.stringify(cart)}</Text> */}
       <View
@@ -146,9 +148,9 @@ export default function TabOneScreen({
         />
       </View>
       <View>
-        {favorites.map((item) => (
-          <Text>{item.name}</Text>
-        ))}
+        {favorites.map((item) => {
+          return <Text key={item.id}>{item.name}</Text>;
+        })}
       </View>
     </View>
   );
