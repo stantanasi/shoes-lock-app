@@ -67,22 +67,56 @@ const cartSlice = createSlice({
   },
 });
 
+const favoritesSlice = createSlice({
+  name: "favorites",
+  initialState: [] as ShoeInFavorites[],
+  reducers: {
+    addToFavorites: (state, action: PayloadAction<Shoe>) => {
+      const newShoe: Shoe = action.payload;
+      //   console.log("state", state);
+      //   console.log("item", newShoe);
+      let newItem: ShoeInFavorites | undefined = state.find((item) => {
+        return item.id == newShoe.id;
+      });
+      if (newItem) {
+        console.log("Item existant");
+      } else {
+        newItem = { ...newShoe };
+        state.push(newItem);
+      }
+    },
+
+    removeFromFavorites: (state, action: PayloadAction<string>) => {
+      const shoeID: string = action.payload;
+      console.log("Shoe ID : ", shoeID);
+      console.log("Item ID : ", state);
+      let item: ShoeInFavorites | undefined = state.find((item) => {
+        return item.id == shoeID;
+      });
+      if (!item) {
+        // throw new Error("Item non trouvé");
+        return;
+      }
+      return state.filter((item) => {
+        return item.id !== shoeID;
+      });
+    },
+  },
+});
+
 export const { addToCart, removeFromCart, updateCart } = cartSlice.actions;
+export const { addToFavorites, removeFromFavorites } = favoritesSlice.actions;
 
 export const store = configureStore({
   reducer: {
     cart: cartSlice.reducer,
+    favorites: favoritesSlice.reducer,
   },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 
-export type ShoeInCart = {
-  id: string;
-  name: string;
-  img: string;
-  price: number;
-  brandID: number;
-  promo: number;
+export type ShoeInCart = Shoe & {
   quantity: number;
 };
+export type ShoeInFavorites = Shoe;
