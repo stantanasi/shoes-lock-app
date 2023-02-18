@@ -58,12 +58,61 @@ export default function Navigation({
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+/**
+ * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+ */
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof FontAwesome>["name"];
+  color: string;
+}) {
+  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+}
+
+const Header = () => {
+  return (
+    <Image
+      style={{ width: 100, height: 40 }}
+      source={require("../assets/images/logo-shoes-lock.png")}
+    />
+  );
+};
+
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Launcher" component={LauncherScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen
+        name="Launcher"
+        component={LauncherScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: "#489BAD",
+          },
+          headerTitle: () => <Header />,
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: "#489BAD",
+          },
+          headerTitle: () => <Header />,
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: "#489BAD",
+          },
+          headerTitle: () => <Header />,
+          headerTitleAlign: "center",
+        }}
+      />
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
@@ -93,15 +142,6 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-
-  const Header = () => {
-    return (
-      <Image
-        style={{ width: 100, height: 40 }}
-        source={require("../assets/images/logo-shoes-lock.png")}
-      />
-    );
-  };
 
   return (
     <Provider store={store}>
@@ -141,7 +181,7 @@ function BottomTabNavigator() {
             headerTitle: () => <Header />,
             headerTitleAlign: "center",
             tabBarIcon: ({ color }) => (
-              <TabBarIcon name="code" color={"#000"} />
+              <CircleIcon url={require("../assets/images/home-icon.png")} />
             ),
           }}
         />
@@ -208,14 +248,4 @@ function BottomTabNavigator() {
       </BottomTab.Navigator>
     </Provider>
   );
-}
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }

@@ -9,7 +9,7 @@ export default function FavScreen() {
     {
       id: "1",
       name: "Air Jordan 1",
-      brandID: 1,
+      brandID: "Nike",
       price: 120,
       img: "https://myalpins.com/1680-large_default/nike-air-jordan-1-mid-noir-blanc.jpg",
       promo: 0,
@@ -17,7 +17,7 @@ export default function FavScreen() {
     {
       id: "2",
       name: "Yeezy Boost 350 ",
-      brandID: 2,
+      brandID: "Adidas",
       price: 120,
       img: "https://www.pngall.com/wp-content/uploads/2016/06/Adidas-Shoes-Free-Download-PNG.png",
       promo: 0,
