@@ -22,8 +22,11 @@ const cartSlice = createSlice({
       }
     },
 
-    removeFromCart: (state, action: PayloadAction<string>) => {
-      const shoeID: string = action.payload;
+    removeFromCart: (
+      state,
+      action: PayloadAction<{ shoeID: string; removeAll?: boolean }>
+    ) => {
+      const shoeID: string = action.payload.shoeID;
       console.log("Shoe ID : ", shoeID);
       console.log("Item ID : ", state);
       let item: ShoeInCart | undefined = state.find((item) => {
@@ -34,7 +37,7 @@ const cartSlice = createSlice({
         return;
       }
 
-      if (item.quantity <= 1) {
+      if (item.quantity <= 1 || action.payload.removeAll) {
         return state.filter((item) => {
           return item.id !== shoeID;
         });
