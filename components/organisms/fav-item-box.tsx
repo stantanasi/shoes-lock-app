@@ -1,23 +1,20 @@
 import { useEffect } from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
-import { ShoeInCart } from "../../redux";
+import { StyleSheet, View, Text, Image } from "react-native";
 import { Shoe } from "../../services/shoes";
 import Button from "../atoms/button";
 import CircleIcon from "../atoms/circle-icon";
 import Spacer from "../atoms/spacer";
 
 interface BoxItemProps {
-  item: ShoeInCart;
-  favOption?: boolean;
-  addItem: (shoe: Shoe) => void;
-  removeItem: (id: string, removeAll?: boolean) => void;
+  item: Shoe;
+  addToCart: (shoe: Shoe) => void;
+  removeItem: (id: string) => void;
 }
 
-export default function CartItemBox({
+export default function FavItemBox({
   item,
-  addItem,
   removeItem,
-  favOption,
+  addToCart,
 }: BoxItemProps) {
   const shoe: Shoe = { ...item };
   useEffect(() => {
@@ -33,39 +30,28 @@ export default function CartItemBox({
         </View>
         <View style={styles.shoesname}>
           <Text style={styles.text}>{item.name}</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Pressable
-              style={styles.btnPress}
-              onPress={() => {
-                removeItem(item.id);
-              }}
-            >
-              <Text style={styles.btnText}>-</Text>
-            </Pressable>
-            <Text style={styles.text}>{item.quantity}</Text>
-            <Pressable
-              style={styles.btnPress}
-              onPress={() => {
-                addItem(item);
-              }}
-            >
-              <Text style={styles.btnText}>+</Text>
-            </Pressable>
-          </View>
         </View>
         <Text style={styles.text}>{item.price}$</Text>
       </View>
       <Spacer height={10} />
-      <View style={styles.downbox}>
+
+      <View style={styles.downbox2}>
         <Button
           deleteVersion
           onPress={() => {
-            console.log(item.id);
-            removeItem(item.id, true);
+            removeItem(item.id);
           }}
         >
           <Text style={styles.btnText}>Remove</Text>
         </Button>
+        <Spacer width={15} />
+        <CircleIcon
+          onPress={() => {
+            console.log(item);
+            addToCart(item);
+          }}
+          url={require("../../assets/images/cart-plus.png")}
+        />
       </View>
     </View>
   );

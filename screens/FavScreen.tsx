@@ -1,36 +1,44 @@
+import { useEffect, useState } from "react";
 import { StyleSheet, ScrollView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import Spacer from "../components/atoms/spacer";
-import ItemBox from "../components/organisms/item-box";
+import FavItemBox from "../components/organisms/fav-item-box";
 import { Text, View } from "../components/Themed";
-import { Shoe } from "../services/shoes";
+import { addToCart, removeFromFavorites, RootState } from "../redux";
+import { getShoes, Shoe } from "../services/shoes";
 
 export default function FavScreen() {
-  const tempShoes: Shoe[] = [
-    {
-      id: "1",
-      name: "Air Jordan 1",
-      brandID: 1,
-      price: 120,
-      img: "https://myalpins.com/1680-large_default/nike-air-jordan-1-mid-noir-blanc.jpg",
-      promo: 0,
-    },
-    {
-      id: "2",
-      name: "Yeezy Boost 350 ",
-      brandID: 2,
-      price: 120,
-      img: "https://www.pngall.com/wp-content/uploads/2016/06/Adidas-Shoes-Free-Download-PNG.png",
-      promo: 0,
-    },
-  ];
+  const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart);
+  const favorites = useSelector((state: RootState) => state.favorites);
+
+  function removeItemFromFavorites(id: string): any {
+    dispatch(removeFromFavorites(id));
+    console.log("Favorites : " + JSON.stringify(favorites));
+  }
+
+  function addItemToCart(shoe: Shoe): any {
+    dispatch(addToCart(shoe));
+    console.log("Cart : " + JSON.stringify(cart));
+  }
+
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>Favorites</Text>
         <Spacer height={40} />
         <View style={styles.list}>
-          {tempShoes.map((shoe, index) => (
-            <ItemBox key={index} favOption item={shoe} removeItem={() => {}} />
+          {favorites.map((shoe, index) => (
+            <FavItemBox
+              key={index}
+              item={shoe}
+              removeItem={(id: string) => {
+                removeItemFromFavorites(id);
+              }}
+              addToCart={(shoe: Shoe) => {
+                addItemToCart(shoe);
+              }}
+            />
           ))}
         </View>
       </View>
