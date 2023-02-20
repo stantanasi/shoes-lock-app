@@ -42,7 +42,7 @@ export default function TabOneScreen({
   }
 
   function removeItemFromCart(id: string): any {
-    dispatch(removeFromCart(id));
+    dispatch(removeFromCart({ shoeID: id }));
     console.log("Cart : " + JSON.stringify(cart));
   }
 
