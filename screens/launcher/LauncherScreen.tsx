@@ -4,19 +4,32 @@ import { RootStackScreenProps } from "../../types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SquareButton from "../../components/atoms/square-button";
 import Spacer from "../../components/atoms/spacer";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, setGlobalUser } from "../../redux";
+import { getUser } from "../../services/users";
 
 export default function LauncherScreen({
   navigation,
 }: RootStackScreenProps<"Launcher">) {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     AsyncStorage.getItem("user").then((value) => {
       if (value) {
-        const user = JSON.parse(value);
+        // const user = JSON.parse(value);
 
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "Root" }],
-        });
+        getUser(JSON.parse(value).uid)
+          .then((value) => {
+            console.log("Value id : ", value.uid);
+            dispatch(setGlobalUser(value));
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Root" }],
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       }
     });
   }, []);

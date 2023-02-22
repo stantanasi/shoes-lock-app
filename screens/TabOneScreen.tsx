@@ -1,5 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { Button, StyleSheet, TextInput } from "react-native";
+import { Button, ScrollView, StyleSheet, TextInput } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import EditScreenInfo from "../components/EditScreenInfo";
@@ -10,9 +11,17 @@ import {
   removeFromCart,
   removeFromFavorites,
   RootState,
+  setGlobalUser,
   updateCart,
 } from "../redux";
+import {
+  createOrder,
+  getOrders,
+  Order,
+  updateOrderStatus,
+} from "../services/order";
 import { getShoes, Shoe } from "../services/shoes";
+import { getUser, User } from "../services/users";
 import { RootTabScreenProps } from "../types";
 
 export default function TabOneScreen({
@@ -21,15 +30,35 @@ export default function TabOneScreen({
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
   const favorites = useSelector((state: RootState) => state.favorites);
+  const user = useSelector((state: RootState) => state.user);
+  // const orders = useSelector((state: RootState) => state.orders);
   const [shoes, setShoes] = useState<Shoe[]>([]);
   const [quantity, setQuantity] = useState<string>("1");
+  // const [user, setUser] = useState<User>();
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [status, setStatus] = useState<string>("");
+  const orderID = "uWDwbeNBigIYmzkuf5Ww";
   useEffect(() => {
     getShoes().then((res) => {
-      console.log("res: ", res);
+      // console.log("res: ", res);
       setShoes(res);
-      console.log("Shoes : ", shoes);
+      // console.log("Shoes : ", shoes);
     });
+
+    console.log("Tab one user : ", user);
+    updateOrders();
   }, []);
+
+  function updateOrders() {
+    if (user) {
+      getOrders(user.uid).then((res) => {
+        console.log("Orders res: ", res);
+        setOrders(res);
+      });
+    } else {
+      console.error("User undefined");
+    }
+  }
 
   function addItemToCart(shoe: Shoe): any {
     dispatch(addToCart(shoe));
@@ -64,95 +93,137 @@ export default function TabOneScreen({
   }
 
   return (
-    <View style={styles.container}>
-      {/* <Text style={styles.title}>Tab One</Text> */}
-      <Text style={styles.title}>Cart redux</Text>
+    <ScrollView>
+      <View style={styles.container}>
+        {/* <Text style={styles.title}>Tab One</Text> */}
+        <Text style={styles.title}>Cart redux</Text>
 
-      {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
-      <View style={styles.buttonDesk}>
+        {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
+        <View style={styles.buttonDesk}>
+          <View style={styles.buttonContainer}>
+            <Button title="Add 1" onPress={() => addItemToCart(ShoeOne)} />
+            <Button title="Add 2" onPress={() => addItemToCart(ShoeTwo)} />
+            <Button title="Add 3" onPress={() => addItemToCart(ShoeThree)} />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Remove 1"
+              onPress={() => removeItemFromCart(ShoeOne.id)}
+            />
+            <Button
+              title="Remove 2"
+              onPress={() => removeItemFromCart(ShoeTwo.id)}
+            />
+            <Button
+              title="Remove 3"
+              onPress={() => removeItemFromCart(ShoeThree.id)}
+            />
+          </View>
+          <TextInput
+            placeholder="Quantity"
+            onChangeText={setQuantity}
+            value={quantity}
+            keyboardType="number-pad"
+            maxLength={2}
+          ></TextInput>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Update 1"
+              onPress={() => changeQuantityFromCart(ShoeOne.id, quantity)}
+            />
+            <Button
+              title="Update 2"
+              onPress={() => changeQuantityFromCart(ShoeTwo.id, quantity)}
+            />
+            <Button
+              title="Update 3"
+              onPress={() => changeQuantityFromCart(ShoeThree.id, quantity)}
+            />
+          </View>
+        </View>
+        {/* <Text>{JSON.stringify(shoes)}</Text> */}
+        <View>
+          {cart.map((item) => {
+            return (
+              <Text key={item.id}>
+                {item.name}, {item.quantity}
+              </Text>
+            );
+          })}
+        </View>
+        {/* <Text>{JSON.stringify(cart)}</Text> */}
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
+        <Text style={styles.title}>Favorites redux</Text>
+
         <View style={styles.buttonContainer}>
-          <Button title="Add 1" onPress={() => addItemToCart(ShoeOne)} />
-          <Button title="Add 2" onPress={() => addItemToCart(ShoeTwo)} />
-          <Button title="Add 3" onPress={() => addItemToCart(ShoeThree)} />
+          <Button title="Add 1" onPress={() => addItemToFavorites(ShoeOne)} />
+          <Button title="Add 2" onPress={() => addItemToFavorites(ShoeTwo)} />
+          <Button title="Add 3" onPress={() => addItemToFavorites(ShoeThree)} />
         </View>
         <View style={styles.buttonContainer}>
           <Button
             title="Remove 1"
-            onPress={() => removeItemFromCart(ShoeOne.id)}
+            onPress={() => removeItemFromFavorites(ShoeOne.id)}
           />
           <Button
             title="Remove 2"
-            onPress={() => removeItemFromCart(ShoeTwo.id)}
+            onPress={() => removeItemFromFavorites(ShoeTwo.id)}
           />
           <Button
             title="Remove 3"
-            onPress={() => removeItemFromCart(ShoeThree.id)}
+            onPress={() => removeItemFromFavorites(ShoeThree.id)}
           />
         </View>
-        <TextInput
-          placeholder="Quantity"
-          onChangeText={setQuantity}
-          value={quantity}
-          keyboardType="number-pad"
-          maxLength={2}
-        ></TextInput>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Update 1"
-            onPress={() => changeQuantityFromCart(ShoeOne.id, quantity)}
-          />
-          <Button
-            title="Update 2"
-            onPress={() => changeQuantityFromCart(ShoeTwo.id, quantity)}
-          />
-          <Button
-            title="Update 3"
-            onPress={() => changeQuantityFromCart(ShoeThree.id, quantity)}
-          />
+        <View>
+          {favorites.map((item) => {
+            return <Text key={item.id}>{item.name}</Text>;
+          })}
+        </View>
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
+        <View>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+          >
+            <TextInput
+              placeholder="Status"
+              onChangeText={setStatus}
+              value={status}
+            ></TextInput>
+            <Button
+              title="Update status"
+              onPress={() => {
+                updateOrderStatus(status, orderID);
+                updateOrders();
+              }}
+            />
+            <Button
+              title="Update user"
+              onPress={() => {
+                console.log(user.uid);
+              }}
+            />
+          </View>
+          <Text>{orders.length}</Text>
+          <View>
+            {orders.map((item) => {
+              return (
+                <Text key={item.id}>
+                  {item.id} ,{item.userID}, {item.status}
+                </Text>
+              );
+            })}
+          </View>
         </View>
       </View>
-      {/* <Text>{JSON.stringify(shoes)}</Text> */}
-      <View>
-        {cart.map((item) => {
-          return (
-            <Text key={item.id}>
-              {item.name}, {item.quantity}
-            </Text>
-          );
-        })}
-      </View>
-      {/* <Text>{JSON.stringify(cart)}</Text> */}
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <Text style={styles.title}>Favorites redux</Text>
-      <View style={styles.buttonContainer}>
-        <Button title="Add 1" onPress={() => addItemToFavorites(ShoeOne)} />
-        <Button title="Add 2" onPress={() => addItemToFavorites(ShoeTwo)} />
-        <Button title="Add 3" onPress={() => addItemToFavorites(ShoeThree)} />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Remove 1"
-          onPress={() => removeItemFromFavorites(ShoeOne.id)}
-        />
-        <Button
-          title="Remove 2"
-          onPress={() => removeItemFromFavorites(ShoeTwo.id)}
-        />
-        <Button
-          title="Remove 3"
-          onPress={() => removeItemFromFavorites(ShoeThree.id)}
-        />
-      </View>
-      <View>
-        {favorites.map((item) => {
-          return <Text key={item.id}>{item.name}</Text>;
-        })}
-      </View>
-    </View>
+    </ScrollView>
   );
 }
 
