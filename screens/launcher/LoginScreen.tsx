@@ -7,12 +7,17 @@ import BlueBox from "../../components/atoms/blue-box";
 import Spacer from "../../components/atoms/spacer";
 import Button from "../../components/atoms/button";
 import Input from "../../components/atoms/input";
+import { getUser } from "../../services/users";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, setGlobalUser } from "../../redux";
 
 export default function LoginScreen({
   navigation,
 }: RootStackScreenProps<"Login">) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
 
   const funcLogin = () => {
     if (email.trim() === "") return;
@@ -32,9 +37,20 @@ export default function LoginScreen({
         return user;
       })
       .then(() => {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "Root" }],
+        AsyncStorage.getItem("user").then((value) => {
+          if (value) {
+            // const user = JSON.parse(value);
+
+            getUser(JSON.parse(value).uid).then((value) => {
+              console.log("Value id : ", value.uid);
+              dispatch(setGlobalUser(value));
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Root" }],
+              });
+              console.log("Login user : ", user);
+            });
+          }
         });
       })
       .catch((error) => console.error(error));

@@ -7,10 +7,14 @@ import Input from "../../components/atoms/input";
 import BlueBox from "../../components/atoms/blue-box";
 import Button from "../../components/atoms/button";
 import Spacer from "../../components/atoms/spacer";
+import { useDispatch } from "react-redux";
+import { setGlobalUser } from "../../redux";
+import { User } from "../../services/users";
 
 export default function RegisterScreen({
   navigation,
 }: RootStackScreenProps<"Register">) {
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,6 +32,12 @@ export default function RegisterScreen({
         const user = credentials.user;
         if (!user) throw new Error("User is null");
 
+        const userToAdd: User = {
+          uid: user.uid,
+          name: name,
+          address: address,
+        };
+
         await fireDB.collection("user").add({
           uid: user.uid,
           name: name,
@@ -35,13 +45,14 @@ export default function RegisterScreen({
         });
         AsyncStorage.setItem("user", JSON.stringify({ uid: user.uid }));
 
-        return user;
+        return userToAdd;
       })
-      .then(() => {
+      .then((user) => {
         navigation.reset({
           index: 0,
           routes: [{ name: "Root" }],
         });
+        dispatch(setGlobalUser(user));
       })
       .catch((error) => console.error(error));
   };

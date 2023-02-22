@@ -5,8 +5,8 @@ export async function getShoes(): Promise<Array<Shoe>> {
     let shoesList: Array<Shoe> = [];
     fireDB.collection("shoes").onSnapshot((res) => {
       res.forEach((doc) => {
-        console.log(doc.data());
-        console.log(doc.id);
+        // console.log(doc.data());
+        // console.log(doc.id);
         const stringValue = JSON.stringify(doc.data());
         let value: Shoe = JSON.parse(stringValue);
         value.id = doc.id;
