@@ -146,7 +146,7 @@ function BottomTabNavigator() {
   return (
     <Provider store={store}>
       <BottomTab.Navigator
-        initialRouteName="TabOne"
+        initialRouteName="Shop"
         screenOptions={{
           tabBarActiveTintColor: "#000",
           tabBarInactiveTintColor: "#000",
@@ -157,7 +157,7 @@ function BottomTabNavigator() {
           tabBarShowLabel: false,
         }}
       >
-        <BottomTab.Screen
+        {/* <BottomTab.Screen
           name="TabOne"
           component={TabOneScreen}
           options={{
@@ -169,7 +169,7 @@ function BottomTabNavigator() {
             headerTitleAlign: "center",
             tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           }}
-        />
+        /> */}
         <BottomTab.Screen
           name="Shop"
           component={ShopScreen}
