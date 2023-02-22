@@ -1,48 +1,71 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { getUser, User } from '../../services/users';
-import { RootTabScreenProps } from '../../types';
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { RootTabScreenProps } from "../../types";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux";
+import { getOrders, Order } from "../../services/order";
+import OrderItemBox from "../../components/organisms/order-item-box";
+import { useIsFocused } from "@react-navigation/native";
 
-export default function ProfileScreen({ navigation }: RootTabScreenProps<'Profile'>) {
-  const [user, setUser] = useState<User | null>(null)
+export default function ProfileScreen({
+  navigation,
+}: RootTabScreenProps<"Profile">) {
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    AsyncStorage.getItem('user')
-      .then((value) => {
-        if (!value) throw new Error()
+    isFocused && updateOrders();
+  }, [isFocused]);
 
-        return getUser(JSON.parse(value).uid)
-      })
-      .then((value) => setUser(value))
-      .catch(() => {
-        console.error('Une erreur est survenue')
-        navigation.reset({
-          index: 0,
-          routes: [],
-        })
-        navigation.navigate('Launcher')
-      })
-  }, [])
-
-  return (
-    <View style={styles.container}>
+  let profilePic;
+  if (user.profilePic) {
+    profilePic = (
+      <Image source={{ uri: user.profilePic }} style={styles.profilePic} />
+    );
+  } else {
+    profilePic = (
       <Image
-        source={{ uri: 'https://avatars.githubusercontent.com/u/72262554?v=4' }}
+        source={require("../../assets/images/user-icon.png")}
         style={styles.profilePic}
       />
-      <Text>{user?.name ?? ''}</Text>
-    </View>
-  )
+    );
+  }
+
+  function updateOrders() {
+    if (user) {
+      getOrders(user.uid).then((res) => {
+        console.log("Orders res: ", res);
+        setOrders(res);
+      });
+    } else {
+      console.error("User undefined");
+    }
+  }
+
+  return (
+    <ScrollView>
+      <View style={styles.container}>
+        {profilePic}
+        <Text>{user.name}</Text>
+        <View>
+          {orders.map((order, index) => {
+            return <OrderItemBox key={index} order={order} />;
+          })}
+        </View>
+      </View>
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   profilePic: {
     width: 150,
     height: 150,
   },
-})
+});
