@@ -1,6 +1,7 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit/dist/createAction";
 import { Shoe } from "./services/shoes";
+import { User } from "./services/users";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -107,13 +108,28 @@ const favoritesSlice = createSlice({
   },
 });
 
+const userSlice = createSlice({
+  name: "user",
+  initialState: {} as User,
+  reducers: {
+    setGlobalUser: (state, action: PayloadAction<User>) => {
+      console.log("Action payload : ", action.payload);
+      state = action.payload;
+      console.log("New user state : ", state);
+      return state;
+    },
+  },
+});
+
 export const { addToCart, removeFromCart, updateCart } = cartSlice.actions;
 export const { addToFavorites, removeFromFavorites } = favoritesSlice.actions;
+export const { setGlobalUser } = userSlice.actions;
 
 export const store = configureStore({
   reducer: {
     cart: cartSlice.reducer,
     favorites: favoritesSlice.reducer,
+    user: userSlice.reducer,
   },
 });
 
