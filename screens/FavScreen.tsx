@@ -11,17 +11,17 @@ export default function FavScreen() {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
   const favorites = useSelector((state: RootState) => state.favorites);
-  
+
   function removeItemFromFavorites(id: string): any {
     dispatch(removeFromFavorites(id));
     console.log("Favorites : " + JSON.stringify(favorites));
   }
-  
+
   function addItemToCart(shoe: Shoe): any {
     dispatch(addToCart(shoe));
     console.log("Cart : " + JSON.stringify(cart));
   }
-  
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -40,6 +40,9 @@ export default function FavScreen() {
               }}
             />
           ))}
+          {favorites.length === 0 && (
+            <Text style={{ textAlign: "center" }}>No favorites</Text>
+          )}
         </View>
       </View>
     </ScrollView>

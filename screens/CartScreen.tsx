@@ -67,6 +67,11 @@ export default function CartScreen() {
               }}
             />
           ))}
+          {cart.length === 0 && (
+            <Text style={{ textAlign: "center" }}>
+              You have no item in your cart ! Check out the shop !
+            </Text>
+          )}
         </View>
       </View>
     </ScrollView>
@@ -91,5 +96,9 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
     width: "100%",
+  },
+  row: {
+    flexDirection: "row",
+    flex: 1,
   },
 });
