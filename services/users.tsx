@@ -1,6 +1,6 @@
 import { fireDB } from "../firebase";
 
-export async function getUser(uid: string): Promise<any> {
+export async function getUser(uid: string): Promise<User> {
   let user: User = {
     uid: "",
     name: "",
@@ -10,7 +10,7 @@ export async function getUser(uid: string): Promise<any> {
   const res = await fireDB.collection("user").where("uid", "==", uid).get();
 
   res.forEach((elem) => {
-    console.log(elem.data());
+    // console.log(elem.data());
     const stringValue = JSON.stringify(elem.data());
     user = JSON.parse(stringValue);
   });
@@ -33,4 +33,5 @@ export type User = {
   uid: string;
   name: string;
   address: string;
+  profilePic?: string;
 };
