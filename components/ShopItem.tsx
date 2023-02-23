@@ -1,7 +1,9 @@
+import { useNavigation } from "@react-navigation/native";
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, addToFavorites, RootState } from "../redux";
 import { Shoe } from "../services/shoes";
+import { RootTabScreenProps } from "../types";
 import Spacer from "./atoms/spacer";
 
 interface ShopItemProps {
@@ -9,17 +11,20 @@ interface ShopItemProps {
 }
 
 export default function ShopItem({ shoe }: ShopItemProps) {
+  const navigation = useNavigation<RootTabScreenProps<'Shop'>>();
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
-
   const favorites = useSelector((state: RootState) => state.favorites);
+
   function addItemToCart(): any {
     dispatch(addToCart(shoe));
     console.log("Cart : " + JSON.stringify(cart));
+    navigation.navigate('Cart');
   }
   function addItemToFavorites(): any {
     dispatch(addToFavorites(shoe));
     console.log("Favorites : " + JSON.stringify(favorites));
+    navigation.navigate('Favorites');
   }
 
   return (
