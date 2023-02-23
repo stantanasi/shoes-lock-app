@@ -95,7 +95,7 @@ export default function OrderItemBox({ order: order }: BoxItemProps) {
             </View>
           )}
         </View>
-        <View style={{ marginLeft: 10, }}>
+        <View style={{ marginLeft: 10, flex: 1 }}>
           <Text style={styles.text} numberOfLines={1}>N° {order.id}</Text>
           <Pressable
             style={styles.viewMoreButton}
