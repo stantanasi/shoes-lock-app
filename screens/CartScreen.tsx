@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/atoms/button";
+import Input from "../components/atoms/input";
 import Spacer from "../components/atoms/spacer";
 import CartItemBox from "../components/organisms/cart-item-box";
 import { Text, View } from "../components/Themed";
@@ -15,7 +16,9 @@ export default function CartScreen() {
   const favorites = useSelector((state: RootState) => state.favorites);
   const user = useSelector((state: RootState) => state.user);
   const [shoes, setShoes] = useState<Shoe[]>([]);
+  const [promoCode, setPromoCode] = useState<string>("");
   const [quantity, setQuantity] = useState<string>("1");
+  const validCode: string = "E5PARIS";
   useEffect(() => {
     getShoes().then((res) => {
       console.log("res: ", res);
@@ -27,6 +30,14 @@ export default function CartScreen() {
   function addItemToCart(shoe: Shoe): any {
     dispatch(addToCart(shoe));
     console.log("Cart : " + JSON.stringify(cart));
+  }
+
+  function applyPromo(promo: number) {
+    if (promoCode === validCode) {
+      cart.map((item) => {
+        item.promo = promo;
+      });
+    }
   }
 
   function createNewOrder(): any {
@@ -57,19 +68,41 @@ export default function CartScreen() {
     console.log("Cart : " + JSON.stringify(cart));
   }
 
-  let finishOrderButton;
+  let finishOrderSection;
   if (cart[0]) {
-    finishOrderButton = (
-      <Button
-        onPress={() => {
-          createNewOrder();
-        }}
-      >
-        Finish purchase
-      </Button>
+    finishOrderSection = (
+      <>
+        <View style={{ flexDirection: "row", backgroundColor: "#ff000000" }}>
+          <Input
+            value={promoCode}
+            placeholder="PROMO CODE"
+            onChange={(input) => {
+              setPromoCode(input);
+            }}
+            width={200}
+          />
+          <Spacer width={20} />
+          {/* <Text>{promoCode}</Text> */}
+          <Button
+            onPress={() => {
+              applyPromo(20);
+            }}
+          >
+            Apply coupon
+          </Button>
+        </View>
+        <Spacer height={20} />
+        <Button
+          onPress={() => {
+            createNewOrder();
+          }}
+        >
+          Finish purchase
+        </Button>
+      </>
     );
   } else {
-    finishOrderButton = <View></View>;
+    finishOrderSection = <View></View>;
   }
 
   return (
@@ -105,7 +138,7 @@ export default function CartScreen() {
             backgroundColor: "#ff000000",
           }}
         >
-          {finishOrderButton}
+          {finishOrderSection}
         </View>
       </View>
     </ScrollView>

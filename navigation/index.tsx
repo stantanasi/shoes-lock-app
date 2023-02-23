@@ -157,7 +157,8 @@ function BottomTabNavigator() {
           tabBarInactiveTintColor: "#000",
           tabBarStyle: {
             backgroundColor: "#489BAD",
-            height: 60,
+            // height: 60,
+            paddingTop: 6,
           },
           tabBarShowLabel: false,
         }}

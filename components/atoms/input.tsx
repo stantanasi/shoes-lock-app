@@ -6,13 +6,20 @@ interface ButtonProps {
   onChange: (value: string) => void;
   placeholder?: string;
   otherOptions?: any;
+  width?: string | number;
 }
 
-const Input = ({ onChange, value, placeholder, otherOptions }: ButtonProps) => {
+const Input = ({
+  onChange,
+  value,
+  placeholder,
+  width,
+  otherOptions,
+}: ButtonProps) => {
   return (
     <TextInput
       placeholder={placeholder}
-      style={styles.input}
+      style={[styles.input, { width: width ? width : "100%" }]}
       value={value}
       onChangeText={onChange}
       {...otherOptions}
@@ -25,7 +32,6 @@ export default Input;
 const styles = StyleSheet.create({
   input: {
     backgroundColor: "#fff",
-    width: "100%",
     height: 50,
     padding: 5,
     borderRadius: 4,
