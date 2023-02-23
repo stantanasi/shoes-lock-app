@@ -12,7 +12,10 @@ export async function getUser(uid: string): Promise<User> {
   res.forEach((elem) => {
     // console.log(elem.data());
     const stringValue = JSON.stringify(elem.data());
-    user = JSON.parse(stringValue);
+    user = {
+      ...JSON.parse(stringValue),
+      id: elem.id,
+    };
   });
   return user;
 }
@@ -30,6 +33,7 @@ export function createUser(user: User): void {
 }
 
 export type User = {
+  id?: string;
   uid: string;
   name: string;
   address: string;
