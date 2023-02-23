@@ -24,7 +24,6 @@ export default function FavItemBox({
   return (
     <View style={styles.container}>
       <View style={styles.upbox}>
-        {/* replace by img */}
         <View>
           <Image source={{ uri: item.img }} style={styles.img} />
         </View>
@@ -63,6 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 2,
     borderColor: "#000",
+    backgroundColor: "#ffffffff",
     padding: 5,
     paddingRight: 40,
     paddingLeft: 40,

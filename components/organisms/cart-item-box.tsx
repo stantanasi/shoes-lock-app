@@ -3,12 +3,10 @@ import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { ShoeInCart } from "../../redux";
 import { Shoe } from "../../services/shoes";
 import Button from "../atoms/button";
-import CircleIcon from "../atoms/circle-icon";
 import Spacer from "../atoms/spacer";
 
 interface BoxItemProps {
   item: ShoeInCart;
-  favOption?: boolean;
   addItem: (shoe: Shoe) => void;
   removeItem: (id: string, removeAll?: boolean) => void;
 }
@@ -17,7 +15,6 @@ export default function CartItemBox({
   item,
   addItem,
   removeItem,
-  favOption,
 }: BoxItemProps) {
   const shoe: Shoe = { ...item };
   useEffect(() => {
@@ -27,7 +24,6 @@ export default function CartItemBox({
   return (
     <View style={styles.container}>
       <View style={styles.upbox}>
-        {/* replace by img */}
         <View>
           <Image source={{ uri: item.img }} style={styles.img} />
         </View>
@@ -64,7 +60,7 @@ export default function CartItemBox({
             removeItem(item.id, true);
           }}
         >
-          <Text style={styles.btnText}>Remove</Text>
+          Remove
         </Button>
       </View>
     </View>
@@ -76,7 +72,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: "#000",
+    borderColor: "#000000",
+    backgroundColor: "#ffffff",
     padding: 5,
     paddingRight: 40,
     paddingLeft: 40,
