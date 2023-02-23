@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, ScrollView, Button } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import Button from "../components/atoms/button";
 import Spacer from "../components/atoms/spacer";
 import CartItemBox from "../components/organisms/cart-item-box";
 import { Text, View } from "../components/Themed";
-import {
-  addToCart,
-  addToFavorites,
-  removeFromCart,
-  removeFromFavorites,
-  RootState,
-  updateCart,
-} from "../redux";
+import { addToCart, removeFromCart, RootState, updateCart } from "../redux";
 import { createOrder, Order } from "../services/order";
 import { getShoes, Shoe } from "../services/shoes";
 
@@ -67,11 +61,12 @@ export default function CartScreen() {
   if (cart[0]) {
     finishOrderButton = (
       <Button
-        title="Proceed to checkout"
         onPress={() => {
           createNewOrder();
         }}
-      />
+      >
+        Finish purchase
+      </Button>
     );
   } else {
     finishOrderButton = <View></View>;
@@ -101,7 +96,17 @@ export default function CartScreen() {
             </Text>
           )}
         </View>
-        <View>{finishOrderButton}</View>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+
+            backgroundColor: "#ff000000",
+          }}
+        >
+          {finishOrderButton}
+        </View>
       </View>
     </ScrollView>
   );
@@ -113,6 +118,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     height: "100%",
+    backgroundColor: "#ff000000",
   },
   title: {
     fontSize: 30,
@@ -120,11 +126,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontStyle: "italic",
+
+    backgroundColor: "#ff000000",
   },
   list: {
     flexDirection: "column",
     flex: 1,
     width: "100%",
+    backgroundColor: "#ff000000",
   },
   row: {
     flexDirection: "row",
