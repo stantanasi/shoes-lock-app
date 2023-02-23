@@ -128,6 +128,11 @@ function RootNavigator() {
         <Stack.Screen
           name="ProfileSettings"
           component={ProfileSettingsScreen}
+          options={{
+            headerStyle: {
+              backgroundColor: "#489BAD",
+            },
+          }}
         />
       </Stack.Group>
     </Stack.Navigator>
