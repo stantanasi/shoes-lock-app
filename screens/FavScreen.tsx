@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     height: "100%",
+    backgroundColor: "#ffffff00",
   },
   title: {
     fontSize: 30,
@@ -64,6 +65,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   list: {
+    backgroundColor: "#ff000000",
     flexDirection: "column",
     flex: 1,
     width: "100%",

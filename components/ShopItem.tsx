@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, addToFavorites, RootState } from "../redux";
 import { Shoe } from "../services/shoes";
+import CircleIcon from "./atoms/circle-icon";
 import Spacer from "./atoms/spacer";
 
 interface ShopItemProps {
@@ -34,7 +35,7 @@ export default function ShopItem({ shoe }: ShopItemProps) {
           <Text style={styles.textPrice}>{shoe.price} €</Text>
         </View>
         <View style={styles.actionContainer}>
-          <View style={styles.actionBox}>
+          {/* <View style={styles.actionBox}>
             <Pressable
               style={styles.cartButton}
               onPress={() => {
@@ -53,6 +54,22 @@ export default function ShopItem({ shoe }: ShopItemProps) {
             >
               <Text style={styles.buttonText}>AJOUTER AUX FAVORIS ❤</Text>
             </Pressable>
+          </View> */}
+          <Spacer height={10} />
+          <View style={{ flexDirection: "row" }}>
+            <CircleIcon
+              onPress={() => {
+                addItemToCart();
+              }}
+              url={require("../assets/images/cart-plus.png")}
+            />
+            <Spacer width={10} />
+            <CircleIcon
+              onPress={() => {
+                addItemToFavorites();
+              }}
+              url={require("../assets/images/fav-icon.png")}
+            />
           </View>
         </View>
       </View>
