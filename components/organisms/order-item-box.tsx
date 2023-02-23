@@ -9,82 +9,103 @@ interface BoxItemProps {
 
 export default function OrderItemBox({ order: order }: BoxItemProps) {
   const [modalVisible, setModalVisible] = useState(false);
-  useEffect(() => {}, []);
 
   return (
-    <View>
+    <>
       <Modal transparent={true} animationType="slide" visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text>Order number : {order.id}</Text>
-            <Text>Order status : {order.status}</Text>
-            <Spacer height={10}></Spacer>
-            {order.items.map((item, index) => {
-              let promoText;
-              if (item.promo) {
-                promoText = (
-                  <View>
-                    <Text>Promo : {item.promo}%</Text>
+            <Text
+              style={{
+                color: "green",
+                textTransform: "uppercase"
+              }}
+            >
+              {order.status}
+            </Text>
+            <Text style={{ color: "#808080", fontSize: 12, marginBottom: 10 }}>N° {order.id}</Text>
+            {order.items.map((item, index) => (
+              <View key={index} style={{ flexDirection: "row" }}>
+                <Image source={{ uri: item.img }} style={{ width: 80, height: 80 }} />
+                <View style={{ marginTop: 12, marginLeft: 12 }}>
+                  <Text>{item.name}</Text>
+                  <View style={{ flexDirection: "row" }}>
+                    {item.promo ? (
+                      <>
+                        <Text>€{item.price * (1 - item.promo / 100) * item.quantity}</Text>
+                        <Text> </Text>
+                        <Text style={{ color: "#808080", textDecorationLine: 'line-through' }}>€{item.price}</Text>
+                      </>
+                    ) : (
+                      <Text>€{item.price}</Text>
+                    )}
                   </View>
-                );
-              } else {
-                promoText = <View></View>;
-              }
-              return (
-                <View key={index} style={{}}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      width: 250,
-                      borderRadius: 20,
-                      backgroundColor: "#ebebeb",
-                    }}
-                  >
-                    <View>
-                      <Image source={{ uri: item.img }} style={styles.img} />
-                    </View>
-                    <Spacer width={10}></Spacer>
-                    <View style={styles.textBox}>
-                      <Spacer height={2} />
-                      <Text>{item.name}</Text>
-                      <Text>Quant. : {item.quantity}</Text>
-                      <Text>Price : {item.price}</Text>
-                      {promoText}
-                    </View>
-                  </View>
-                  <Spacer height={10}></Spacer>
                 </View>
-              );
-            })}
-            <Text>Total price : {getOrderTotalPrice(order)}</Text>
-            <Spacer height={10}></Spacer>
-            <Pressable onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.btnText}>Close</Text>
+              </View>
+            ))}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 10,
+                marginTop: 12,
+              }}
+            >
+              <Text style={{ fontWeight: "bold" }}>Total</Text>
+              <Text style={{ fontWeight: "bold" }}>€{getOrderTotalPrice(order)}</Text>
+            </View>
+            <Pressable
+              style={{
+                alignSelf: "center",
+                borderColor: "black",
+                borderRadius: 100,
+                borderWidth: 1,
+                marginTop: 16,
+                paddingHorizontal: 14,
+                paddingVertical: 4,
+              }}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.viewMoreButtonText}>Close</Text>
             </Pressable>
           </View>
         </View>
       </Modal>
       <View style={styles.container}>
-        <View style={styles.upbox}>
-          <Text style={styles.text}>Order id : {order.id?.slice(0, 5)}...</Text>
-          <Text style={styles.text}>
-            Comprend {getItemCount(order)} articles
-          </Text>
+        <View style={{
+          height: 80,
+          width: 80,
+        }}>
+          <Image source={{ uri: order.items[0].img }} style={styles.img} />
+          {order.items.length > 1 && (
+            <View style={{
+              position: 'absolute',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 18,
+              backgroundColor: '#00000050',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+            }}>
+              <Text style={{ color: "white", fontSize: 26, fontWeight: "bold" }}>
+                +{order.items.length - 1}
+              </Text>
+            </View>
+          )}
         </View>
-        <Spacer height={10} />
-        <View style={styles.downbox}>
+        <View style={{ marginLeft: 10, }}>
+          <Text style={styles.text} numberOfLines={1}>N° {order.id}</Text>
           <Pressable
-            style={styles.orderButton}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-            }}
+            style={styles.viewMoreButton}
+            onPress={() => setModalVisible(!modalVisible)}
           >
-            <Text style={styles.btnText}>Show details</Text>
+            <Text style={styles.viewMoreButtonText}>View or manage</Text>
           </Pressable>
         </View>
       </View>
-      <Spacer height={10} />
-    </View>
+    </>
   );
 }
 
@@ -93,14 +114,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    padding: 20,
+    backgroundColor: "#00000080",
   },
   modalView: {
-    margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -109,29 +129,23 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    width: "100%",
   },
-  orderButton: {
+  viewMoreButton: {
     color: "#fff",
-    backgroundColor: "#acacac",
+    backgroundColor: "#acacac80",
     borderRadius: 6,
-    width: 100,
-    height: 40,
-    justifyContent: "center",
+    alignSelf: "center",
     alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    marginTop: 8,
   },
   container: {
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: "#000",
-    padding: 5,
-    paddingRight: 40,
-    paddingLeft: 40,
-    paddingBottom: 10,
-    flexDirection: "column",
-    alignItems: "center",
+    flexDirection: "row",
   },
   textBox: {
-    width: "100%",
   },
   upbox: {
     alignItems: "center",
@@ -149,7 +163,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     // fontWeight: "bold",
   },
-  btnText: {
+  viewMoreButtonText: {
     color: "#000000",
     fontSize: 16,
     fontWeight: "bold",
